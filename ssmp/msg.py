@@ -36,7 +36,7 @@ def versions():
         # logger.debug("checking %s", f)
         if os.path.isfile(f) and not os.path.islink(f):
             # logger.debug(f)
-            m = re.match('^msg_v(\d+)\.py$', fname)
+            m = re.match('^msg_v(\d+)\.(py|pyc|pyo)$', fname)
             if m:
                 vers.append(int(m.groups()[0]))
 
