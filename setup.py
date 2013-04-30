@@ -11,8 +11,8 @@ setup(name="ssmp",
       packages=['ssmp', 'ssmp.transports', 'ssmp.msgs',
                 'ssmp.transports.RedisSimpleQueue'
                 ],
-      install_requires=['PyYaml',
-                        'python-msgpack',
+      install_requires=['PyYAML',
+                        'msgpack-python',
                         'unittest2',
                         'redis',
                         'dateutil']
