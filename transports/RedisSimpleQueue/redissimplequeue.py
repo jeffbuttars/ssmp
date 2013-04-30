@@ -2,10 +2,12 @@ import logging
 logger = logging.getLogger("ssmp")
 import redis
 
+import msg
+
 
 class RedisSimpleQueue(object):
 
-    def __init__(self, msg_type, redis_cfg=None, default_q='default_q'):
+    def __init__(self, msg_type=None, redis_cfg=None, default_q='default_q'):
         """
         redis_cfg = {
             conn: <Existing Redis connection>,
@@ -23,7 +25,7 @@ class RedisSimpleQueue(object):
         self._redis_cfg = redis_cfg
         self._default_q = default_q
         self._conn = None
-        self._msg_type = msg_type
+        self._msg_type = msg_type or msg.version_objs.get()
 
         if self._redis_cfg:
             if 'conn' in self._redis_cfg:

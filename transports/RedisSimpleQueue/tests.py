@@ -23,11 +23,11 @@ import logging
 logger = logging.getLogger('ssmp')
 import sys
 sys.path.append('../..')
+import datetime
 
 import unittest2 as unittest
 
 from redissimplequeue import RedisSimpleQueue
-import msg
 
 
 class TestRedisSimpleQueue(unittest.TestCase):
@@ -37,13 +37,15 @@ class TestRedisSimpleQueue(unittest.TestCase):
         :return:
         :rtype:
         """
-        self.rsq = RedisSimpleQueue(msg.version_objs.get())
+        self.rsq = RedisSimpleQueue()
 
         # Pump the Q
         self.msgs = []
 
         for m in ("A test message 1", "A test message 2",
-                  "A test message 3", "A test message 4"):
+                  "A test message 3", {'foo': "A test message 4",
+                                       'bar': "blafdjafjds",
+                                       'now': datetime.datetime.now()}):
             self.msgs.append(self.rsq.push(m))
         # end for m in msgs
     #setUp()

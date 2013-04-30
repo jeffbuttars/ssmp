@@ -36,7 +36,8 @@ class CodecSubBase(object):
         :rtype:
         """
         if isinstance(obj, datetime.datetime):
-            return {'__datetime__': True, 'as_str': obj.isoformat()}
+            return {b'__datetime__': True, b'as_str': obj.isoformat()}
+
         return obj
     #_encode_datetime()
 
@@ -51,8 +52,9 @@ class CodecSubBase(object):
         """
 
         if b'__datetime__' in obj:
-            obj = dateutil.parser.parse(obj["as_str"])
+            obj = dateutil.parser.parse(obj[b"as_str"])
 
+        logger.debug("obj: %s", obj)
         return obj
     #_decode_datetime()
 
@@ -80,7 +82,12 @@ class CodecMsgpack(CodecSubBase):
         # logger.debug("data decoded %s", res)
         # return res
 
+        # def td(self, obj):
+        #     logger.debug("obj %s", obj)
+        # #td()
+
         return self._ser_cls.unpackb(data, object_hook=self._decode_datetime)
+        # return self._ser_cls.unpackb(data, object_pairs_hook=td)
     #decode()
 
     def encode(self, data):
@@ -336,7 +343,7 @@ class MsgBase(object):
     def decode(cls, msg):
         logger.debug("msg: %s", msg)
 
-        parts = msg.split(':')
+        parts = msg.split(':', 3)
         fmt = parts[2]
         codec = find_codec(fmt)
         return cls(codec.decode(parts[3]), id=parts[1], fmt=fmt)
