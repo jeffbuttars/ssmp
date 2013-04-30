@@ -2,8 +2,8 @@ import logging
 logger = logging.getLogger("ssmp")
 import redis
 
-import msg
 
+from ssmp import msg
 
 class RedisSimpleQueue(object):
 
