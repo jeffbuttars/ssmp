@@ -11,6 +11,6 @@ setup(name="ssmp",
       packages=['ssmp', 'ssmp.transports', 'ssmp.msgs',
                 'ssmp.transports.RedisSimpleQueue'
                 ],
-      requires=['json', 'PyYaml', 'msgpack-python', 'unittest2', 'redis',
+      requires=['json', 'PyYaml', 'msgpack', 'unittest2', 'redis',
                 'dateutil']
       )
