@@ -116,4 +116,9 @@ class RedisSimpleQueue(object):
         rq = q or self._default_q
         return self._conn.ltrim(rq, 1, 0)
     #remove()
+
+    def len(self, q=None):
+        rq = q or self._default_q
+        return self._conn.llen(rq)
+    #len()
 #RedisSimpleQueue
