@@ -19,21 +19,6 @@ _latest_version = None
 version_objs = None
 
 
-class Msg(object):
-    """Docstring for Msg """
-    def __init__(self, msg, **kwargs):
-        """todo: to be defined
-        :param msg: Message data, serializable python, to be sent.
-        :type msg: type description
-        :param **kwargs: arg description
-        :type **kwargs: type description
-        """
-
-        self._msg = msg
-    #__init__()
-#Msg
-
-
 def versions():
     """todo: Docstring for versions
     :return:
@@ -113,7 +98,7 @@ class VersionObjects(object):
             vm = imp.load_module(mod, *imp.find_module(mod, [mod_path]))
 
             self._versions[v] = vm
-            return vm
+            return vm.Msg
     #get()
 #VersionObjects
 version_objs = VersionObjects()
@@ -126,13 +111,24 @@ sys.path.append(
         os.path.dirname(os.path.realpath(__file__)), 'msgs'))
 
 
+def Msg(*args, **kwargs):
+
+    logger.debug("args: %s, kwargs: %s", args, kwargs)
+
+    if 'ver' in kwargs:
+        return version_objs.get(kwargs['ver']).Msg(*args, **kwargs)
+
+    return version_objs.get().Msg(*args, **kwargs)
+#Msg
+
+
 def main():
-    print("Latest Version : {}".format(version_objs.get().Msg()))
+    print("Latest Version : {}".format(version_objs.get()()))
 
     print("Available Versions :")
     for v in versions():
         m = version_objs.get(v)
-        print("\t{}".format(m.Msg()))
+        print("\t{}".format(m()))
     # end for v in  versions()
 # main()
 
