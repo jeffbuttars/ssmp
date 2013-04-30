@@ -15,5 +15,5 @@ setup(name="ssmp",
                         'msgpack-python',
                         'unittest2',
                         'redis',
-                        'dateutil']
+                        'python-dateutil']
       )
