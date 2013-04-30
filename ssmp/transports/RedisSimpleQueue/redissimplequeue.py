@@ -73,8 +73,10 @@ class RedisSimpleQueue(object):
         # return the last item
         res = self._conn.lpop(rq)
         logger.debug("result: %s", res)
-        res = self._msg_type.decode(res)
-        logger.debug("result decoded: %s", res)
+
+        if res:
+            res = self._msg_type.decode(res)
+            logger.debug("result decoded: %s", res)
 
         return res
     #pop()
@@ -92,8 +94,9 @@ class RedisSimpleQueue(object):
             p.ltrim(rq, num, -1)
             res = p.execute()[0]
             logger.debug("result: %s", res)
-            while res:
-                yield self._msg_type.decode(res.pop())
+            if res:
+                while res:
+                    yield self._msg_type.decode(res.pop())
 
         # return at most num items
         if num:
@@ -103,9 +106,10 @@ class RedisSimpleQueue(object):
             p.lrange(rq, 0, num - 1)
             p.ltrim(rq, num, -1)
             res = p.execute()[0]
-            # logger.debug("result: %s", res)
-            while res:
-                yield self._msg_type.decode(res.pop())
+            logger.debug("result: %s", res)
+            if res:
+                while res:
+                    yield self._msg_type.decode(res.pop())
     #pops()
 
     def remove(self, q=None):
