@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger('ssmp')
 # Use a console handler, set it to debug by default
 logger_ch = logging.StreamHandler()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 log_formatter = logging.Formatter(('%(asctime)s %(levelname)s:%(process)s'
                                    ' %(lineno)s:%(module)s:%(funcName)s()'
                                    ' %(message)s'))
