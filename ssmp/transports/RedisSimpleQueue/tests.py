@@ -37,7 +37,8 @@ class TestRedisSimpleQueue(unittest.TestCase):
         :return:
         :rtype:
         """
-        self.rsq = RedisSimpleQueue()
+        self.rsq = RedisSimpleQueue(default_q='rsq_test_q')
+        self.rsq.remove()
 
         # Pump the Q
         self.msgs = []
@@ -64,6 +65,16 @@ class TestRedisSimpleQueue(unittest.TestCase):
         self.assertEqual(res.fmt, exp.fmt)
         self.assertEqual(res.payload, exp.payload)
     #test_one_item()
+
+    def test_all_items(self):
+        for item in self.rsq.pops():
+            print(item)
+    #test_all_items()
+
+    def test_some_items(self):
+        for item in self.rsq.pops(num=2):
+            print(item)
+    #test_some_items()
 #TestRedisSimpleQueue
 
 

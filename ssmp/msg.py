@@ -97,7 +97,7 @@ class VersionObjects(object):
             # logger.debug("find_module: %s", imp.find_module(mod, [mod_path]))
             vm = imp.load_module(mod, *imp.find_module(mod, [mod_path]))
 
-            self._versions[v] = vm
+            self._versions[v] = vm.Msg
             return vm.Msg
     #get()
 #VersionObjects

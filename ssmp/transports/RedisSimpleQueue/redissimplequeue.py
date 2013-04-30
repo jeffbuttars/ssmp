@@ -20,7 +20,8 @@ class RedisSimpleQueue(object):
         :type redis_cfg: type description
         """
 
-        logger.debug("redis_cfg: %s, default_q: %s", redis_cfg, default_q)
+        logger.debug("msg_type: %s, redis_cfg: %s, default_q: %s",
+                     msg_type, redis_cfg, default_q)
 
         self._redis_cfg = redis_cfg
         self._default_q = default_q
@@ -48,14 +49,16 @@ class RedisSimpleQueue(object):
         :rtype:
         """
 
+        logger.debug("msg: %s, q:%s", msg, q)
+
+        logger.debug(self._msg_type)
         m = self._msg_type(msg)
 
-        logger.debug("msg: %s, q:%s", m.msg, q)
         rq = q or self._default_q
         return self._conn.lpush(rq, m.msg) and m
     #push()
 
-    def pop(self, q=None, num=None, cb=None):
+    def pop(self, q=None):
         """todo: Docstring for recv
 
         :param cb: arg description
@@ -63,20 +66,34 @@ class RedisSimpleQueue(object):
         :return:
         :rtype:
         """
-        logger.debug("q:%s, num:%s, cb:%s", q, num, cb)
+        logger.debug("q:%s", q)
 
         rq = q or self._default_q
-        res = None
+
+        # return the last item
+        res = self._conn.lpop(rq)
+        logger.debug("result: %s", res)
+        res = self._msg_type.decode(res)
+        logger.debug("result decoded: %s", res)
+
+        return res
+    #pop()
+
+    def pops(self, q=None, num=None):
+        # Pop a slice, a generator
+
+        rq = q or self._default_q
 
         # Return the whole Q
-        if num == '-1':
+        if not num:
             p = self._conn.pipeline()
             p.multi()
             p.lrange(rq, 0, -1)
             p.ltrim(rq, num, -1)
-            res = p.execute()
+            res = p.execute()[0]
             logger.debug("result: %s", res)
-            return res
+            while res:
+                yield self._msg_type.decode(res.pop())
 
         # return at most num items
         if num:
@@ -85,17 +102,14 @@ class RedisSimpleQueue(object):
             p.multi()
             p.lrange(rq, 0, num - 1)
             p.ltrim(rq, num, -1)
-            res = p.execute()
-            logger.debug("result: %s", res)
-            return res
+            res = p.execute()[0]
+            # logger.debug("result: %s", res)
+            while res:
+                yield self._msg_type.decode(res.pop())
+    #pops()
 
-        # return the last item
-
-        res = self._conn.lpop(rq)
-        logger.debug("result: %s", res)
-        res = self._msg_type.decode(res)
-        logger.debug("result decoded: %s", res)
-
-        return res
-    #pop()
+    def remove(self, q=None):
+        rq = q or self._default_q
+        return self._conn.ltrim(rq, 1, 0)
+    #remove()
 #RedisSimpleQueue
