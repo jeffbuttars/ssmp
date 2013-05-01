@@ -10,10 +10,10 @@ from msg_basic import Msg as BasicMsg
 
 
 class Msg(BasicMsg):
-    def __init__(self, payload, endpoint, *args, **kwargs):
+    def __init__(self, endpoint, payload, *args, **kwargs):
         """todo: to be defined """
         self._ver = 2
-        super(Msg, self).__init__(*args, **kwargs)
+        super(Msg, self).__init__(payload, *args, **kwargs)
 
         self._ep = endpoint
     #__init__()
@@ -37,7 +37,7 @@ class Msg(BasicMsg):
         parts = msg.split(':', 4)
         fmt = parts[2]
         codec = find_codec(fmt)
-        return cls(codec.decode(parts[4]), parts[3], id=parts[1], fmt=fmt)
+        return cls(parts[3], codec.decode(parts[4]), id=parts[1], fmt=fmt)
     #decode()
 
     @property
