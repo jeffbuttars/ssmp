@@ -10,7 +10,7 @@ from msg_basic import Msg as BasicMsg
 
 
 class Msg(BasicMsg):
-    def __init__(self, endpoint, payload, *args, **kwargs):
+    def __init__(self, endpoint, payload=None, *args, **kwargs):
         """todo: to be defined """
         self._ver = 2
         super(Msg, self).__init__(payload, *args, **kwargs)
@@ -24,11 +24,11 @@ class Msg(BasicMsg):
     #endpoint()
 
     @endpoint.setter
-    def property(self, data, delay=False):
+    def endpoint(self, data, delay=False):
         self._ep = data
         if not delay:
             self._msg = self.serialized
-    #property()
+    #endpoint()
 
     @classmethod
     def decode(cls, msg):

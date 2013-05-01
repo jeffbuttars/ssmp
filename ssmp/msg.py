@@ -62,27 +62,21 @@ class VersionObjects(object):
         :rtype:
         """
 
-        # logger.debug("ver: %s", ver)
-        v = ver
-        # logger.debug("v: %s", v)
+        logger.debug("ver :%s", ver)
 
         try:
-            return self._versions[v]
+            return self._versions[ver]
         except KeyError:
 
             directory = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), 'msgs')
 
-            mod = 'msg_{}'.format(v)
+            mod = 'msg_{}'.format(ver)
             mod_path = directory
 
-            # We expect the mod to exist because latest_version()
-            # does for us.
-            # logger.debug("mod: %s, mod_path: %s", mod, mod_path)
-            # logger.debug("find_module: %s", imp.find_module(mod, [mod_path]))
             vm = imp.load_module(mod, *imp.find_module(mod, [mod_path]))
 
-            self._versions[v] = vm.Msg
+            self._versions[ver] = vm.Msg
             return vm.Msg
     #get()
 #VersionObjects
@@ -96,15 +90,15 @@ sys.path.append(
         os.path.dirname(os.path.realpath(__file__)), 'msgs'))
 
 
-def main():
-    print("Latest Version : {}".format(version_objs.get()()))
+# def main():
+#     print("Latest Version : {}".format(version_objs.get()()))
 
-    print("Available Versions :")
-    for v in versions():
-        m = version_objs.get(v)
-        print("\t{}".format(m()))
-    # end for v in  versions()
-# main()
+#     print("Available Versions :")
+#     for v in versions():
+#         m = version_objs.get(v)
+#         print("\t{}".format(m()))
+#     # end for v in  versions()
+# # main()
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

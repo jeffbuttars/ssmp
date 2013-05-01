@@ -27,7 +27,7 @@ class RedisBasicQueue(object):
         self._redis_cfg = redis_cfg
         self._default_q = default_q
         self._conn = None
-        self._msg_cls = msg.version_objs.get('basic')
+        self._msg_cls = msg.version_objs.get(msg_cls)
 
         if self._redis_cfg:
             if 'conn' in self._redis_cfg:

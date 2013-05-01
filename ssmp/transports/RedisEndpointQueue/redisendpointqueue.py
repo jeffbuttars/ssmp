@@ -1,18 +1,18 @@
 import logging
 logger = logging.getLogger("ssmp")
 
-from ssmp.transports import RedisBasicQueue
+from transports import RedisBasicQueue
 
 
 class RedisEndpointQueue(RedisBasicQueue):
     def __init__(self, **kwargs):
         """todo: to be defined """
         kwargs = kwargs or {}
-        kwargs['msg_class'] = 'endpoint'
-        super(kwargs, self).__init__(**kwargs)
+        kwargs['msg_cls'] = 'endpoint'
+        super(RedisEndpointQueue, self).__init__(**kwargs)
     #__init__()
 
-    def push(self, ep, payload, q=None):
+    def push(self, ep, payload=None, q=None):
         """todo: Docstring for send
         """
 

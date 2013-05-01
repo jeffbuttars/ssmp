@@ -260,7 +260,7 @@ def find_codec(fmt):
 class MsgBase(object):
     """Docstring for Msg """
 
-    def __init__(self, payload, id=None, fmt=None):
+    def __init__(self, payload=None, id=None, fmt=None):
         """todo: to be defined
 
         :param ver: arg description
@@ -271,7 +271,7 @@ class MsgBase(object):
         self._ver = self._ver or 0
         self._id = id or str(uuid4())
         self._fmt = fmt or 'msgpack'
-        self._payload = payload
+        self._payload = payload or ''
         self._codec = find_codec(self._fmt)
         self._msg = None
     #__init__()
