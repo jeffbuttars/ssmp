@@ -37,13 +37,19 @@ class Msg(BasicMsg):
         parts = msg.split(':', 4)
         fmt = parts[2]
         codec = find_codec(fmt)
-        return cls(parts[3], codec.decode(parts[4]), id=parts[1], fmt=fmt)
+        pl = parts[4]
+        pl = pl and codec.decode(pl)
+        return cls(parts[3], pl, id=parts[1], fmt=fmt)
     #decode()
 
     @property
     def serialized(self):
+        # The payload can be empty! A quick and cheesy way to
+        # fire events.
+        pl = self._payload and self._codec.encode(self._payload)
+
         return "{}:{}:{}:{}:{}".format(self._ver, self._id,
                                        self._fmt, self._ep,
-                                       self._codec.encode(self._payload))
+                                       pl)
     #serialized()
 #Msg
