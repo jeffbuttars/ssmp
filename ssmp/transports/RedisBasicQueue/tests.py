@@ -27,17 +27,17 @@ import datetime
 
 import unittest2 as unittest
 
-from redissimplequeue import RedisSimpleQueue
+from redissimplequeue import RedisBasicQueue
 
 
-class TestRedisSimpleQueue(unittest.TestCase):
+class TestRedisBasicQueue(unittest.TestCase):
 
     def setUp(self):
         """todo: Docstring for setUp
         :return:
         :rtype:
         """
-        self.rsq = RedisSimpleQueue(default_q='rsq_test_q')
+        self.rsq = RedisBasicQueue(default_q='rsq_test_q')
         self.rsq.remove()
 
         # Pump the Q
@@ -75,7 +75,7 @@ class TestRedisSimpleQueue(unittest.TestCase):
         for item in self.rsq.pops(num=2):
             print(item)
     #test_some_items()
-#TestRedisSimpleQueue
+#TestRedisBasicQueue
 
 
 def suite():
@@ -89,7 +89,7 @@ def suite():
     # quick.addTest(TestVerizonDeviceListV5())
 
     suite_rsq = quick or \
-        unittest.TestLoader().loadTestsFromTestCase(TestRedisSimpleQueue)
+        unittest.TestLoader().loadTestsFromTestCase(TestRedisBasicQueue)
 
     return unittest.TestSuite([
         suite_rsq,

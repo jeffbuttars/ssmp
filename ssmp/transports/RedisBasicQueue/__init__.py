@@ -1,0 +1,2 @@
+import redisbasicqueue
+transport_class = redisbasicqueue.RedisBasicQueue

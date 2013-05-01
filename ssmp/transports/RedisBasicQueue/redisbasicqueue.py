@@ -5,9 +5,10 @@ import redis
 
 from ssmp import msg
 
-class RedisSimpleQueue(object):
 
-    def __init__(self, msg_type=None, redis_cfg=None, default_q='default_q'):
+class RedisBasicQueue(object):
+
+    def __init__(self, msg_cls='basic', redis_cfg=None, default_q='default_q'):
         """
         redis_cfg = {
             conn: <Existing Redis connection>,
@@ -20,13 +21,13 @@ class RedisSimpleQueue(object):
         :type redis_cfg: type description
         """
 
-        logger.debug("msg_type: %s, redis_cfg: %s, default_q: %s",
-                     msg_type, redis_cfg, default_q)
+        logger.debug("msg_cls: %s, redis_cfg: %s, default_q: %s",
+                     msg_cls, redis_cfg, default_q)
 
         self._redis_cfg = redis_cfg
         self._default_q = default_q
         self._conn = None
-        self._msg_type = msg_type or msg.version_objs.get()
+        self._msg_cls = msg.version_objs.get('basic')
 
         if self._redis_cfg:
             if 'conn' in self._redis_cfg:
@@ -51,8 +52,8 @@ class RedisSimpleQueue(object):
 
         logger.debug("msg: %s, q:%s", msg, q)
 
-        logger.debug(self._msg_type)
-        m = self._msg_type(msg)
+        logger.debug(self._msg_cls)
+        m = self._msg_cls(msg)
 
         rq = q or self._default_q
         return self._conn.lpush(rq, m.msg) and m
@@ -75,7 +76,7 @@ class RedisSimpleQueue(object):
         logger.debug("result: %s", res)
 
         if res:
-            res = self._msg_type.decode(res)
+            res = self._msg_cls.decode(res)
             logger.debug("result decoded: %s", res)
 
         return res
@@ -96,7 +97,7 @@ class RedisSimpleQueue(object):
             logger.debug("result: %s", res)
             if res:
                 while res:
-                    yield self._msg_type.decode(res.pop())
+                    yield self._msg_cls.decode(res.pop())
 
         # return at most num items
         if num:
@@ -109,7 +110,7 @@ class RedisSimpleQueue(object):
             logger.debug("result: %s", res)
             if res:
                 while res:
-                    yield self._msg_type.decode(res.pop())
+                    yield self._msg_cls.decode(res.pop())
     #pops()
 
     def remove(self, q=None):
@@ -121,4 +122,4 @@ class RedisSimpleQueue(object):
         rq = q or self._default_q
         return self._conn.llen(rq)
     #len()
-#RedisSimpleQueue
+#RedisBasicQueue
