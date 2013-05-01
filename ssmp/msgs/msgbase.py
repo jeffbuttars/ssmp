@@ -262,7 +262,7 @@ class MsgBase(object):
         self._ver = self._ver or 0
         self._id = id or str(uuid4())
         self._fmt = fmt or 'msgpack'
-        self._payload = payload or ''
+        self._payload = payload or {}
         self._codec = find_codec(self._fmt)
         self._msg = None
     #__init__()
@@ -292,11 +292,6 @@ class MsgBase(object):
     def ver(self):
         return self._ver
     #ver()
-
-    @property
-    def fmt(self):
-        return self._fmt
-    #fmt()
 
     @property
     def payload(self):

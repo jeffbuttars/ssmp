@@ -6,10 +6,10 @@ logger = logging.getLogger('ssmp')
 
 
 from msgbase import find_codec
-from msg_basic import Msg as BasicMsg
+import msg_basic
 
 
-class Msg(BasicMsg):
+class Msg(msg_basic.Msg):
     def __init__(self, endpoint, payload=None, *args, **kwargs):
         """todo: to be defined """
         self._ver = 2
