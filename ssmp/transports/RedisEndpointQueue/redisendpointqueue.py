@@ -1,7 +1,7 @@
 import logging
 logger = logging.getLogger("ssmp")
 
-from transports import RedisBasicQueue
+from ssmp.transports import RedisBasicQueue
 
 
 class RedisEndpointQueue(RedisBasicQueue):
