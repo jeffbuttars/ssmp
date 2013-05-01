@@ -12,7 +12,7 @@ _CODEC_CACHE = {}
 class CodecSubBase(object):
     """Docstring for CodecSubBase """
 
-    def __init__(self, mod, instantiate=False):
+    def __init__(self, mod):
         """todo: to be defined """
 
         self._ser_cls = importlib.import_module(mod)
@@ -66,7 +66,7 @@ class CodecMsgpack(CodecSubBase):
 
     def __init__(self):
         """todo: to be defined """
-        super(CodecMsgpack, self).__init__('msgpack', instantiate=True)
+        super(CodecMsgpack, self).__init__('msgpack')
     #__init__()
 
     def decode(self, data):
@@ -77,17 +77,8 @@ class CodecMsgpack(CodecSubBase):
         :return:
         :rtype:
         """
-        # logger.debug("data %s", data)
-        # res = self._ser_cls.unpackb(data, object_hook=self._decode_datetime)
-        # logger.debug("data decoded %s", res)
-        # return res
-
-        # def td(self, obj):
-        #     logger.debug("obj %s", obj)
-        # #td()
-
+        logger.debug("data %s", data)
         return self._ser_cls.unpackb(data, object_hook=self._decode_datetime)
-        # return self._ser_cls.unpackb(data, object_pairs_hook=td)
     #decode()
 
     def encode(self, data):
@@ -109,7 +100,7 @@ class CodecJSON(CodecSubBase):
 
     def __init__(self):
         """todo: to be defined """
-        super(CodecJSON, self).__init__('json', instantiate=True)
+        super(CodecJSON, self).__init__('json')
     #__init__()
 
     def encode(self, data):
@@ -141,7 +132,7 @@ class CodecYaml(CodecSubBase):
 
     def __init__(self):
         """todo: to be defined """
-        super(CodecJSON, self).__init__('yaml', instantiate=True)
+        super(CodecJSON, self).__init__('yaml')
 
         try:
             self._loader = self._ser_cls.CLoader
@@ -180,7 +171,7 @@ class CodecPickle(CodecSubBase):
 
     def __init__(self):
         """todo: to be defined """
-        super(CodecJSON, self).__init__('pickle', instantiate=True)
+        super(CodecJSON, self).__init__('pickle')
     #__init__()
 
     def encode(self, data):
