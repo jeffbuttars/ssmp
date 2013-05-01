@@ -264,6 +264,7 @@ class MsgBase(object):
         self._fmt = fmt or 'msgpack'
         self._payload = payload or {}
         self._codec = find_codec(self._fmt)
+        self._trans = None
         self._msg = None
     #__init__()
 
@@ -324,6 +325,16 @@ class MsgBase(object):
 
         return self._msg
     #msg()
+
+    @property
+    def transport(self):
+        return self._trans
+    #transport()
+
+    @transport.setter
+    def transport(self, data):
+        self._trans = data
+    #transport()
 
     @classmethod
     def decode(cls, msg):

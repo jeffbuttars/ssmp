@@ -54,6 +54,7 @@ class RedisBasicQueue(object):
 
         logger.debug(self._msg_cls)
         m = self._msg_cls(msg)
+        m.transport = self
 
         rq = q or self._default_q
         return self._conn.lpush(rq, m.msg) and m
@@ -79,6 +80,7 @@ class RedisBasicQueue(object):
             res = self._msg_cls.decode(res)
             logger.debug("result decoded: %s", res)
 
+        res.transport = self
         return res
     #pop()
 
@@ -97,7 +99,9 @@ class RedisBasicQueue(object):
             logger.debug("result: %s", res)
             if res:
                 while res:
-                    yield self._msg_cls.decode(res.pop())
+                    m = self._msg_cls.decode(res.pop())
+                    m.transport = self
+                    yield m
 
         # return at most num items
         if num:
@@ -110,7 +114,9 @@ class RedisBasicQueue(object):
             logger.debug("result: %s", res)
             if res:
                 while res:
-                    yield self._msg_cls.decode(res.pop())
+                    m = self._msg_cls.decode(res.pop())
+                    m.transport = self
+                    yield m
     #pops()
 
     def remove(self, q=None):
