@@ -78,7 +78,8 @@ class CodecMsgpack(CodecSubBase):
         :rtype:
         """
         logger.debug("data %s", data)
-        return self._ser_cls.unpackb(data, object_hook=self._decode_datetime)
+        return (not data) or \
+            self._ser_cls.unpackb(data, object_hook=self._decode_datetime)
     #decode()
 
     def encode(self, data):
@@ -262,7 +263,7 @@ class MsgBase(object):
         self._ver = self._ver or 0
         self._id = id or str(uuid4())
         self._fmt = fmt or 'msgpack'
-        self._payload = payload or {}
+        self._payload = payload or ''
         self._codec = find_codec(self._fmt)
         self._trans = transport or None
         self._msg = None
