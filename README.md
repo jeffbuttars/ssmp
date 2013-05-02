@@ -23,7 +23,7 @@ should, be serialized. By default Msg payloads are serialized using msgpack.
 
 A transport is an abstraction of a Msg type(there are many) and the underlying
 network protocol, topology, arrangement(Queue, a channel, PUB/SUB, etc.).
-For instance, my transport is a message Queue based on a Redis broker.
+For instance, my transport is a basic message, msg\_basic, Queue based on a Redis broker.
 
 # Easy!
 
@@ -56,3 +56,9 @@ Access the Msg instance attributes directly:
 ### Extendable
 
 Adding new Msg types and transports should be easy.
+
+# TODO:
+
+* Tests! Oh my, no tests yet.
+* Better cooler transports for ZMQ and Tornado for some great true eventing from
+a web app to a Tornado application service consumer.
