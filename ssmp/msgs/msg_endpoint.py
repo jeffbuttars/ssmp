@@ -18,6 +18,12 @@ class Msg(msg_basic.Msg):
         self._ep = endpoint
     #__init__()
 
+    def __str__(self):
+        return ("\nVersion {}\nID      {}\n"
+                "Format  {}\nEndpoint {}\nPayload {}").format(
+                    self._ver, self._id, self._fmt, self._ep, self._payload)
+    #__str__()
+
     @property
     def endpoint(self):
         return self._ep
