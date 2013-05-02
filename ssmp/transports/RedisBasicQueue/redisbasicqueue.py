@@ -77,10 +77,9 @@ class RedisBasicQueue(object):
         logger.debug("result: %s", res)
 
         if res:
-            res = self._msg_cls.decode(res)
+            res = self._msg_cls.decode(res, transport=self)
             logger.debug("result decoded: %s", res)
 
-        res.transport = self
         return res
     #pop()
 

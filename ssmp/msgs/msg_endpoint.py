@@ -31,7 +31,7 @@ class Msg(msg_basic.Msg):
     #endpoint()
 
     @classmethod
-    def decode(cls, msg):
+    def decode(cls, msg, transport=None):
         logger.debug("msg: %s", msg)
 
         parts = msg.split(':', 4)
@@ -39,7 +39,7 @@ class Msg(msg_basic.Msg):
         codec = find_codec(fmt)
         pl = parts[4]
         pl = pl and codec.decode(pl)
-        return cls(parts[3], pl, id=parts[1], fmt=fmt)
+        return cls(parts[3], pl, id=parts[1], fmt=fmt, transport=transport)
     #decode()
 
     @property

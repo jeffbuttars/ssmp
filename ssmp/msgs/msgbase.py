@@ -251,7 +251,7 @@ def find_codec(fmt):
 class MsgBase(object):
     """Docstring for Msg """
 
-    def __init__(self, payload=None, id=None, fmt=None):
+    def __init__(self, payload=None, id=None, fmt=None, transport=None):
         """todo: to be defined
 
         :param ver: arg description
@@ -264,7 +264,7 @@ class MsgBase(object):
         self._fmt = fmt or 'msgpack'
         self._payload = payload or {}
         self._codec = find_codec(self._fmt)
-        self._trans = None
+        self._trans = transport or None
         self._msg = None
     #__init__()
 
@@ -337,7 +337,7 @@ class MsgBase(object):
     #transport()
 
     @classmethod
-    def decode(cls, msg):
+    def decode(cls, msg, transport=None):
         logger.debug("msg: %s", msg)
 
         parts = msg.split(':', 3)
@@ -345,7 +345,7 @@ class MsgBase(object):
         codec = find_codec(fmt)
         pl = parts[3]
         pl = pl and codec.decode(pl)
-        return cls(pl, id=parts[1], fmt=fmt)
+        return cls(pl, id=parts[1], fmt=fmt, transport=transport)
     #decode()
 
     @property
