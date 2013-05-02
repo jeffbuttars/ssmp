@@ -4,7 +4,7 @@
 from distutils.core import setup
 
 setup(name="ssmp",
-      version='0.5',
+      version='0.6',
       description="Super Simple Message Protocol",
       author="Jeff Buttars",
       author_email="jeffbuttars@gmail.com",
