@@ -12,5 +12,6 @@ if top_path not in sys.path:
 
 # Import all sub transport packages.
 for p in pkgutil.iter_modules(__path__, __name__ + "."):
+    print("Adding local %s" % ([p[1].split('.')[-1]],))
     locals()[p[1].split('.')[-1]] = \
         importlib.import_module(p[1]).transport_class
