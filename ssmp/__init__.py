@@ -1,1 +1,1 @@
-import redistestserver.RedisTest as RedisTest
+from redistestserver.redisserver import RedisTest
