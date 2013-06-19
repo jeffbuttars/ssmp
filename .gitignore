@@ -3,3 +3,4 @@
 *.pyo
 MANIFEST
 build
+dist

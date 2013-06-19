@@ -8,7 +8,9 @@ from ssmp import msg
 
 class RedisBasicQueue(object):
 
-    def __init__(self, msg_cls='basic', redis_cfg=None, default_q='default_q'):
+    def __init__(self, msg_cls='basic',
+                 redis_cfg=None,
+                 default_q='default_q'):
         """
         redis_cfg = {
             conn: <Existing Redis connection>,
